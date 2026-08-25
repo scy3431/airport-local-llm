@@ -1,0 +1,254 @@
+import json
+
+raw_data = { 
+    "airports": [ 
+        { "code": "ATL", "name": "Hartsfield-Jackson Atlanta International", "city": "Atlanta", "country": "US", "lat": 33.6407, "lon": -84.4277 }, 
+        { "code": "PEK", "name": "Beijing Capital International", "city": "Beijing", "country": "CN", "lat": 40.0801, "lon": 116.5846 }, 
+        { "code": "DXB", "name": "Dubai International", "city": "Dubai", "country": "AE", "lat": 25.2528, "lon": 55.3644 }, 
+        { "code": "LAX", "name": "Los Angeles International", "city": "Los Angeles", "country": "US", "lat": 33.9425, "lon": -118.4081 }, 
+        { "code": "HND", "name": "Tokyo Haneda", "city": "Tokyo", "country": "JP", "lat": 35.5494, "lon": 139.7798 }, 
+        { "code": "ORD", "name": "O'Hare International", "city": "Chicago", "country": "US", "lat": 41.9742, "lon": -87.9073 }, 
+        { "code": "LHR", "name": "London Heathrow", "city": "London", "country": "GB", "lat": 51.47, "lon": -0.4543 }, 
+        { "code": "PVG", "name": "Shanghai Pudong International", "city": "Shanghai", "country": "CN", "lat": 31.1443, "lon": 121.8083 }, 
+        { "code": "CDG", "name": "Paris Charles de Gaulle", "city": "Paris", "country": "FR", "lat": 49.0097, "lon": 2.5479 }, 
+        { "code": "DFW", "name": "Dallas/Fort Worth International", "city": "Dallas", "country": "US", "lat": 32.8998, "lon": -97.0403 }, 
+        { "code": "CAN", "name": "Guangzhou Baiyun International", "city": "Guangzhou", "country": "CN", "lat": 23.3924, "lon": 113.2988 }, 
+        { "code": "AMS", "name": "Amsterdam Schiphol", "city": "Amsterdam", "country": "NL", "lat": 52.3105, "lon": 4.7683 }, 
+        { "code": "FRA", "name": "Frankfurt Airport", "city": "Frankfurt", "country": "DE", "lat": 50.0379, "lon": 8.5622 }, 
+        { "code": "IST", "name": "Istanbul Airport", "city": "Istanbul", "country": "TR", "lat": 41.2753, "lon": 28.7519 }, 
+        { "code": "SIN", "name": "Singapore Changi", "city": "Singapore", "country": "SG", "lat": 1.3644, "lon": 103.9915 }, 
+        { "code": "ICN", "name": "Incheon International", "city": "Seoul", "country": "KR", "lat": 37.4602, "lon": 126.4407 }, 
+        { "code": "DEN", "name": "Denver International", "city": "Denver", "country": "US", "lat": 39.8561, "lon": -104.6737 }, 
+        { "code": "BKK", "name": "Suvarnabhumi Airport", "city": "Bangkok", "country": "TH", "lat": 13.69, "lon": 100.7501 }, 
+        { "code": "JFK", "name": "John F. Kennedy International", "city": "New York", "country": "US", "lat": 40.6413, "lon": -73.7781 }, 
+        { "code": "HKG", "name": "Hong Kong International", "city": "Hong Kong", "country": "HK", "lat": 22.308, "lon": 113.9185 }, 
+        { "code": "KUL", "name": "Kuala Lumpur International", "city": "Kuala Lumpur", "country": "MY", "lat": 2.7456, "lon": 101.7099 }, 
+        { "code": "MAD", "name": "Adolfo Suárez Madrid–Barajas", "city": "Madrid", "country": "ES", "lat": 40.4983, "lon": -3.5676 }, 
+        { "code": "SFO", "name": "San Francisco International", "city": "San Francisco", "country": "US", "lat": 37.6213, "lon": -122.379 }, 
+        { "code": "MIA", "name": "Miami International", "city": "Miami", "country": "US", "lat": 25.7959, "lon": -80.287 }, 
+        { "code": "SYD", "name": "Sydney Kingsford Smith", "city": "Sydney", "country": "AU", "lat": -33.9399, "lon": 151.1753 }, 
+        { "code": "MUC", "name": "Munich Airport", "city": "Munich", "country": "DE", "lat": 48.3537, "lon": 11.775 }, 
+        { "code": "BCN", "name": "Barcelona–El Prat", "city": "Barcelona", "country": "ES", "lat": 41.2974, "lon": 2.0833 }, 
+        { "code": "YYZ", "name": "Toronto Pearson International", "city": "Toronto", "country": "CA", "lat": 43.6777, "lon": -79.6248 }, 
+        { "code": "MEX", "name": "Mexico City International", "city": "Mexico City", "country": "MX", "lat": 19.4361, "lon": -99.0719 }, 
+        { "code": "NRT", "name": "Narita International", "city": "Tokyo", "country": "JP", "lat": 35.772, "lon": 140.3929 },
+        { "code": "LGW", "name": "London Gatwick", "city": "London", "country": "GB", "lat": 51.1481, "lon": -0.1903 },
+        { "code": "ORY", "name": "Paris Orly", "city": "Paris", "country": "FR", "lat": 48.7233, "lon": 2.3794 },
+        { "code": "FCO", "name": "Rome Fiumicino", "city": "Rome", "country": "IT", "lat": 41.8003, "lon": 12.2389 },
+        { "code": "MXP", "name": "Milan Malpensa", "city": "Milan", "country": "IT", "lat": 45.6306, "lon": 8.7281 },
+        { "code": "ZRH", "name": "Zurich Airport", "city": "Zurich", "country": "CH", "lat": 47.4647, "lon": 8.5492 },
+        { "code": "VIE", "name": "Vienna International", "city": "Vienna", "country": "AT", "lat": 48.1103, "lon": 16.5697 },
+        { "code": "CPH", "name": "Copenhagen Airport", "city": "Copenhagen", "country": "DK", "lat": 55.6180, "lon": 12.6560 },
+        { "code": "OSL", "name": "Oslo Gardermoen", "city": "Oslo", "country": "NO", "lat": 60.1939, "lon": 11.1004 },
+        { "code": "ARN", "name": "Stockholm Arlanda", "city": "Stockholm", "country": "SE", "lat": 59.6519, "lon": 17.9186 },
+        { "code": "HEL", "name": "Helsinki-Vantaa", "city": "Helsinki", "country": "FI", "lat": 60.3172, "lon": 24.9633 },
+        { "code": "DUB", "name": "Dublin Airport", "city": "Dublin", "country": "IE", "lat": 53.4213, "lon": -6.2701 },
+        { "code": "BRU", "name": "Brussels Airport", "city": "Brussels", "country": "BE", "lat": 50.9014, "lon": 4.4844 },
+        { "code": "LIS", "name": "Lisbon Airport", "city": "Lisbon", "country": "PT", "lat": 38.7813, "lon": -9.1359 },
+        { "code": "ATH", "name": "Athens International", "city": "Athens", "country": "GR", "lat": 37.9364, "lon": 23.9445 },
+        { "code": "WAW", "name": "Warsaw Chopin", "city": "Warsaw", "country": "PL", "lat": 52.1657, "lon": 20.9671 },
+        { "code": "PRG", "name": "Vaclav Havel Airport Prague", "city": "Prague", "country": "CZ", "lat": 50.1008, "lon": 14.2600 },
+        { "code": "BUD", "name": "Budapest Ferenc Liszt", "city": "Budapest", "country": "HU", "lat": 47.4298, "lon": 19.2611 },
+        { "code": "SVO", "name": "Moscow Sheremetyevo", "city": "Moscow", "country": "RU", "lat": 55.9726, "lon": 37.4146 },
+        { "code": "GRU", "name": "Sao Paulo Guarulhos", "city": "Sao Paulo", "country": "BR", "lat": -23.4356, "lon": -46.4731 },
+        { "code": "GIG", "name": "Rio de Janeiro Galeao", "city": "Rio de Janeiro", "country": "BR", "lat": -22.8099, "lon": -43.2505 },
+        { "code": "EZE", "name": "Buenos Aires Ezeiza", "city": "Buenos Aires", "country": "AR", "lat": -34.8222, "lon": -58.5358 },
+        { "code": "SCL", "name": "Santiago International", "city": "Santiago", "country": "CL", "lat": -33.3930, "lon": -70.7858 },
+        { "code": "BOG", "name": "Bogota El Dorado", "city": "Bogota", "country": "CO", "lat": 4.7016, "lon": -74.1469 },
+        { "code": "LIM", "name": "Lima Jorge Chavez", "city": "Lima", "country": "PE", "lat": -12.0219, "lon": -77.1143 },
+        { "code": "PTY", "name": "Panama City Tocumen", "city": "Panama City", "country": "PA", "lat": 9.0714, "lon": -79.3835 },
+        { "code": "YVR", "name": "Vancouver International", "city": "Vancouver", "country": "CA", "lat": 49.1947, "lon": -123.1792 },
+        { "code": "YUL", "name": "Montreal-Trudeau", "city": "Montreal", "country": "CA", "lat": 45.4706, "lon": -73.7408 },
+        { "code": "IAH", "name": "George Bush Intercontinental", "city": "Houston", "country": "US", "lat": 29.9902, "lon": -95.3368 },
+        { "code": "EWR", "name": "Newark Liberty International", "city": "Newark", "country": "US", "lat": 40.6895, "lon": -74.1745 },
+        { "code": "BOS", "name": "Boston Logan International", "city": "Boston", "country": "US", "lat": 42.3656, "lon": -71.0096 },
+        { "code": "SEA", "name": "Seattle-Tacoma International", "city": "Seattle", "country": "US", "lat": 47.4502, "lon": -122.3088 },
+        { "code": "PHX", "name": "Phoenix Sky Harbor", "city": "Phoenix", "country": "US", "lat": 33.4373, "lon": -112.0078 },
+        { "code": "LAS", "name": "Harry Reid International", "city": "Las Vegas", "country": "US", "lat": 36.0840, "lon": -115.1537 },
+        { "code": "CLT", "name": "Charlotte Douglas International", "city": "Charlotte", "country": "US", "lat": 35.2144, "lon": -80.9473 },
+        { "code": "MSP", "name": "Minneapolis-Saint Paul International", "city": "Minneapolis", "country": "US", "lat": 44.8848, "lon": -93.2223 },
+        { "code": "DTW", "name": "Detroit Metropolitan", "city": "Detroit", "country": "US", "lat": 42.2124, "lon": -83.3534 },
+        { "code": "PHL", "name": "Philadelphia International", "city": "Philadelphia", "country": "US", "lat": 39.8744, "lon": -75.2424 },
+        { "code": "LGA", "name": "LaGuardia Airport", "city": "New York", "country": "US", "lat": 40.7769, "lon": -73.8740 },
+        { "code": "BWI", "name": "Baltimore/Washington International", "city": "Baltimore", "country": "US", "lat": 39.1774, "lon": -76.6684 },
+        { "code": "IAD", "name": "Washington Dulles International", "city": "Washington", "country": "US", "lat": 38.9531, "lon": -77.4565 },
+        { "code": "DCA", "name": "Ronald Reagan Washington National", "city": "Washington", "country": "US", "lat": 38.8512, "lon": -77.0402 },
+        { "code": "SAN", "name": "San Diego International", "city": "San Diego", "country": "US", "lat": 32.7338, "lon": -117.1933 },
+        { "code": "TPA", "name": "Tampa International", "city": "Tampa", "country": "US", "lat": 27.9755, "lon": -82.5332 },
+        { "code": "HNL", "name": "Daniel K. Inouye International", "city": "Honolulu", "country": "US", "lat": 21.3187, "lon": -157.9225 },
+        { "code": "ANC", "name": "Ted Stevens Anchorage International", "city": "Anchorage", "country": "US", "lat": 61.1743, "lon": -149.9963 },
+        { "code": "AUS", "name": "Austin-Bergstrom International", "city": "Austin", "country": "US", "lat": 30.1975, "lon": -97.6664 },
+        { "code": "MCO", "name": "Orlando International", "city": "Orlando", "country": "US", "lat": 28.4312, "lon": -81.3081 },
+        { "code": "FLL", "name": "Fort Lauderdale-Hollywood International", "city": "Fort Lauderdale", "country": "US", "lat": 26.0726, "lon": -80.1527 },
+        { "code": "SLC", "name": "Salt Lake City International", "city": "Salt Lake City", "country": "US", "lat": 40.7899, "lon": -111.9791 },
+        { "code": "STL", "name": "St. Louis Lambert International", "city": "St. Louis", "country": "US", "lat": 38.7487, "lon": -90.3700 },
+        { "code": "PDX", "name": "Portland International", "city": "Portland", "country": "US", "lat": 45.5898, "lon": -122.5951 },
+        { "code": "RDU", "name": "Raleigh-Durham International", "city": "Raleigh", "country": "US", "lat": 35.8776, "lon": -78.7875 },
+        { "code": "CVG", "name": "Cincinnati/Northern Kentucky International", "city": "Cincinnati", "country": "US", "lat": 39.0489, "lon": -84.6678 },
+        { "code": "AUH", "name": "Abu Dhabi International", "city": "Abu Dhabi", "country": "AE", "lat": 24.4330, "lon": 54.6511 },
+        { "code": "DOH", "name": "Hamad International", "city": "Doha", "country": "QA", "lat": 25.2731, "lon": 51.6081 },
+        { "code": "JED", "name": "King Abdulaziz International", "city": "Jeddah", "country": "SA", "lat": 21.6796, "lon": 39.1565 },
+        { "code": "RUH", "name": "King Khalid International", "city": "Riyadh", "country": "SA", "lat": 24.9576, "lon": 46.6988 },
+        { "code": "TLV", "name": "Ben Gurion International", "city": "Tel Aviv", "country": "IL", "lat": 32.0055, "lon": 34.8854 },
+        { "code": "CAI", "name": "Cairo International", "city": "Cairo", "country": "EG", "lat": 30.1219, "lon": 31.4056 },
+        { "code": "CMN", "name": "Casablanca Mohammed V", "city": "Casablanca", "country": "MA", "lat": 33.3675, "lon": -7.5900 },
+        { "code": "LOS", "name": "Murtala Muhammed International", "city": "Lagos", "country": "NG", "lat": 6.5774, "lon": 3.3212 },
+        { "code": "JNB", "name": "O.R. Tambo International", "city": "Johannesburg", "country": "ZA", "lat": -26.1392, "lon": 28.2460 },
+        { "code": "CPT", "name": "Cape Town International", "city": "Cape Town", "country": "ZA", "lat": -33.9648, "lon": 18.6017 },
+        { "code": "NBO", "name": "Jomo Kenyatta International", "city": "Nairobi", "country": "KE", "lat": -1.3192, "lon": 36.9278 },
+        { "code": "ADD", "name": "Addis Ababa Bole International", "city": "Addis Ababa", "country": "ET", "lat": 8.9779, "lon": 38.7993 },
+        { "code": "DEL", "name": "Indira Gandhi International", "city": "Delhi", "country": "IN", "lat": 28.5562, "lon": 77.1000 },
+        { "code": "BOM", "name": "Chhatrapati Shivaji Maharaj International", "city": "Mumbai", "country": "IN", "lat": 19.0896, "lon": 72.8656 },
+        { "code": "BLR", "name": "Kempegowda International", "city": "Bengaluru", "country": "IN", "lat": 13.1986, "lon": 77.7066 },
+        { "code": "MAA", "name": "Chennai International", "city": "Chennai", "country": "IN", "lat": 12.9941, "lon": 80.1709 },
+        { "code": "CCU", "name": "Netaji Subhas Chandra Bose International", "city": "Kolkata", "country": "IN", "lat": 22.6547, "lon": 88.4467 },
+        { "code": "HYD", "name": "Rajiv Gandhi International", "city": "Hyderabad", "country": "IN", "lat": 17.2403, "lon": 78.4294 },
+        { "code": "CGK", "name": "Soekarno-Hatta International", "city": "Jakarta", "country": "ID", "lat": -6.1256, "lon": 106.6559 },
+        { "code": "MNL", "name": "Ninoy Aquino International", "city": "Manila", "country": "PH", "lat": 14.5086, "lon": 121.0194 },
+        { "code": "SGN", "name": "Tan Son Nhat International", "city": "Ho Chi Minh City", "country": "VN", "lat": 10.8188, "lon": 106.6520 },
+        { "code": "HAN", "name": "Noi Bai International", "city": "Hanoi", "country": "VN", "lat": 21.2212, "lon": 105.8072 },
+        { "code": "TPE", "name": "Taiwan Taoyuan International", "city": "Taipei", "country": "TW", "lat": 25.0797, "lon": 121.2342 },
+        { "code": "KIX", "name": "Osaka Kansai International", "city": "Osaka", "country": "JP", "lat": 34.4347, "lon": 135.2440 },
+        { "code": "NGO", "name": "Chubu Centrair International", "city": "Nagoya", "country": "JP", "lat": 34.8584, "lon": 136.8054 },
+        { "code": "FUK", "name": "Fukuoka Airport", "city": "Fukuoka", "country": "JP", "lat": 33.5859, "lon": 130.4508 },
+        { "code": "CTU", "name": "Chengdu Shuangliu International", "city": "Chengdu", "country": "CN", "lat": 30.5785, "lon": 103.9469 },
+        { "code": "SZX", "name": "Shenzhen Bao'an International", "city": "Shenzhen", "country": "CN", "lat": 22.6393, "lon": 113.8107 },
+        { "code": "XIY", "name": "Xi'an Xianyang International", "city": "Xi'an", "country": "CN", "lat": 34.4471, "lon": 108.7516 },
+        { "code": "KMG", "name": "Kunming Changshui International", "city": "Kunming", "country": "CN", "lat": 25.1019, "lon": 102.9292 },
+        { "code": "WUH", "name": "Wuhan Tianhe International", "city": "Wuhan", "country": "CN", "lat": 30.7838, "lon": 114.2081 },
+        { "code": "HGH", "name": "Hangzhou Xiaoshan International", "city": "Hangzhou", "country": "CN", "lat": 30.2295, "lon": 120.4344 },
+        { "code": "CKG", "name": "Chongqing Jiangbei International", "city": "Chongqing", "country": "CN", "lat": 29.7192, "lon": 106.6417 },
+        { "code": "XMN", "name": "Xiamen Gaoqi International", "city": "Xiamen", "country": "CN", "lat": 24.5440, "lon": 118.1279 },
+        { "code": "AKL", "name": "Auckland Airport", "city": "Auckland", "country": "NZ", "lat": -37.0082, "lon": 174.7850 },
+        { "code": "MEL", "name": "Melbourne Airport", "city": "Melbourne", "country": "AU", "lat": -37.6690, "lon": 144.8410 },
+        { "code": "BNE", "name": "Brisbane Airport", "city": "Brisbane", "country": "AU", "lat": -27.3842, "lon": 153.1175 },
+        { "code": "PER", "name": "Perth Airport", "city": "Perth", "country": "AU", "lat": -31.9403, "lon": 115.9669 },
+        { "code": "NAN", "name": "Nadi International", "city": "Nadi", "country": "FJ", "lat": -17.7554, "lon": 177.4434 },
+        { "code": "HAM", "name": "Hamburg Airport", "city": "Hamburg", "country": "DE", "lat": 53.6304, "lon": 9.9882 },
+        { "code": "DUS", "name": "Dusseldorf Airport", "city": "Dusseldorf", "country": "DE", "lat": 51.2895, "lon": 6.7668 },
+        { "code": "STR", "name": "Stuttgart Airport", "city": "Stuttgart", "country": "DE", "lat": 48.6899, "lon": 9.2220 },
+        { "code": "GVA", "name": "Geneva Airport", "city": "Geneva", "country": "CH", "lat": 46.2381, "lon": 6.1090 },
+        { "code": "MAN", "name": "Manchester Airport", "city": "Manchester", "country": "GB", "lat": 53.3537, "lon": -2.2750 },
+        { "code": "EDI", "name": "Edinburgh Airport", "city": "Edinburgh", "country": "GB", "lat": 55.9500, "lon": -3.3725 },
+        { "code": "GLA", "name": "Glasgow Airport", "city": "Glasgow", "country": "GB", "lat": 55.8642, "lon": -4.4331 },
+        { "code": "NCE", "name": "Nice Cote d'Azur", "city": "Nice", "country": "FR", "lat": 43.6584, "lon": 7.2159 },
+        { "code": "LYS", "name": "Lyon-Saint Exupery", "city": "Lyon", "country": "FR", "lat": 45.7256, "lon": 5.0811 },
+        { "code": "BER", "name": "Berlin Brandenburg", "city": "Berlin", "country": "DE", "lat": 52.3667, "lon": 13.5033 },
+        { "code": "KEF", "name": "Keflavik International", "city": "Reykjavik", "country": "IS", "lat": 63.9850, "lon": -22.6056 },
+        { "code": "LED", "name": "St. Petersburg Pulkovo", "city": "St. Petersburg", "country": "RU", "lat": 59.8003, "lon": 30.2625 },
+        { "code": "KBP", "name": "Kyiv Boryspil International", "city": "Kyiv", "country": "UA", "lat": 50.3450, "lon": 30.8947 },
+        { "code": "OTP", "name": "Bucharest Henri Coanda", "city": "Bucharest", "country": "RO", "lat": 44.5711, "lon": 26.0850 },
+        { "code": "SOF", "name": "Sofia Airport", "city": "Sofia", "country": "BG", "lat": 42.6952, "lon": 23.4062 },
+        { "code": "ZAG", "name": "Zagreb Airport", "city": "Zagreb", "country": "HR", "lat": 45.7429, "lon": 16.0688 },
+        { "code": "BEG", "name": "Belgrade Nikola Tesla", "city": "Belgrade", "country": "RS", "lat": 44.8184, "lon": 20.3091 },
+        { "code": "TLL", "name": "Tallinn Airport", "city": "Tallinn", "country": "EE", "lat": 59.4133, "lon": 24.8328 },
+        { "code": "RIX", "name": "Riga International", "city": "Riga", "country": "LV", "lat": 56.9236, "lon": 23.9711 },
+        { "code": "VNO", "name": "Vilnius Airport", "city": "Vilnius", "country": "LT", "lat": 54.6341, "lon": 25.2858 },
+        { "code": "GYD", "name": "Heydar Aliyev International", "city": "Baku", "country": "AZ", "lat": 40.4675, "lon": 50.0467 },
+        { "code": "TBS", "name": "Tbilisi International", "city": "Tbilisi", "country": "GE", "lat": 41.6692, "lon": 44.9547 },
+        { "code": "EVN", "name": "Zvartnots International", "city": "Yerevan", "country": "AM", "lat": 40.1473, "lon": 44.3959 },
+        { "code": "ALA", "name": "Almaty International", "city": "Almaty", "country": "KZ", "lat": 43.3521, "lon": 77.0405 },
+        { "code": "TAS", "name": "Tashkent International", "city": "Tashkent", "country": "UZ", "lat": 41.2579, "lon": 69.2812 },
+        { "code": "KHI", "name": "Jinnah International", "city": "Karachi", "country": "PK", "lat": 24.9065, "lon": 67.1608 },
+        { "code": "DAC", "name": "Hazrat Shahjalal International", "city": "Dhaka", "country": "BD", "lat": 23.8433, "lon": 90.3978 },
+        { "code": "CMB", "name": "Bandaranaike International", "city": "Colombo", "country": "LK", "lat": 7.1808, "lon": 79.8841 }
+    ] 
+}
+
+import json
+import random
+from pathlib import Path
+
+# config
+SYSTEM_PROMPT = (
+    "You are an expert geographical assistant specializing in "
+    "airport metadata. Answer airport questions using the "
+    "information provided in your training."
+)
+
+prompts = [
+    "Provide the details for the airport code: {code}.",
+    "Can you lookup the airport information for {code}?",
+    "What are the specs, location, and coordinates for airport {code}?",
+    "Show data concerning airport code {code}.",
+    "Extract information payload for {code}."
+]
+
+# make results reproducible
+random.seed(42)
+
+# convert airport records into prompt examples
+examples = []
+
+for i, airport in enumerate(raw_data["airports"]):
+
+    user_prompt = prompts[i % len(prompts)].format(
+        code=airport["code"]
+    )
+
+    assistant_reply = (
+        f"The airport name is {airport['name']}, located in "
+        f"{airport['city']}, {airport['country']}. "
+        f"Latitude: {airport['lat']}, "
+        f"Longitude: {airport['lon']}."
+    )
+
+    example = {
+        "messages": [
+            {
+                "role": "system",
+                "content": SYSTEM_PROMPT
+            },
+            {
+                "role": "user",
+                "content": user_prompt
+            },
+            {
+                "role": "assistant",
+                "content": assistant_reply
+            }
+        ]
+    }
+
+    examples.append(example)
+
+# shuffle
+random.shuffle(examples)
+
+# train test split
+total = len(examples)
+
+train_end = int(total * 0.80)
+valid_end = int(total * 0.90)
+
+train_data = examples[:train_end]
+valid_data = examples[train_end:valid_end]
+test_data = examples[valid_end:]
+
+Path("data").mkdir(exist_ok=True)
+
+# write json files
+def write_jsonl(filename, data):
+    with open(filename, "w", encoding="utf-8") as f:
+        for example in data:
+            f.write(
+                json.dumps(
+                    example,
+                    ensure_ascii=False
+                ) + "\n"
+            )
+
+write_jsonl("data/train.jsonl", train_data)
+write_jsonl("data/valid.jsonl", valid_data)
+write_jsonl("data/test.jsonl", test_data)
+
+print("Dataset created successfully.")
+print(f"Total examples:      {len(examples)}")
+print(f"Training examples:   {len(train_data)}")
+print(f"Validation examples: {len(valid_data)}")
+print(f"Testing examples:    {len(test_data)}")
+
+print("\nFiles:")
+print("  data/train.jsonl")
+print("  data/valid.jsonl")
+print("  data/test.jsonl")
