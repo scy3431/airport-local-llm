@@ -99,7 +99,7 @@ You should see both `adapter_config.json` and `adapters.safetensors`.
 > **Note on training strength:** 10 iterations / 4 layers / batch size 1 is a
 > smoke test to confirm the pipeline works end-to-end, not a real training
 > run. To get the model to actually learn the output format, increase:
-> - `--iters` to 200â€“1000+
+> - `--iters` to 200-1000+
 > - `--num-layers` to 8-16 (or `-1` for all layers)
 > - `--batch-size` to 4-8 (120 training examples can support this)
 
@@ -116,7 +116,7 @@ mlx_lm.generate \
 - `--adapter-path adapters` loads your LoRA weights on top of the base model.
 - `--max-tokens` defaults to 100, which is too short for full responses —
   bump it up (300 is a reasonable starting point).
-- Qwen3 is a "thinking" model by default, so part of the token budget goes
+- Qwen3 is a thinking model by default, so part of the token budget goes
   toward a `<think>...</think>` block before the final answer â€” factor that
   into your `--max-tokens` budget.
 
