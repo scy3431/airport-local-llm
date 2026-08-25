@@ -1,4 +1,4 @@
-# Bedrock Project â€” MLX LoRA Fine-Tuning Setup
+# Bedrock Project — MLX LoRA Fine-Tuning Setup
 
 This guide covers everything needed to go from a fresh clone of this repo to prompting the fine-tuned model, on Apple Silicon (macOS).
 
@@ -35,7 +35,7 @@ Open MPI, and **hard-crashes training** with an error like:
 [mpi] MPI found but it does not appear to be Open MPI. MLX requires Open MPI...
 ```
 
-**Fix â€” scope your `PATH` and `DYLD_LIBRARY_PATH` for the shell session so
+**Fix — scope your `PATH` and `DYLD_LIBRARY_PATH` for the shell session so
 Anaconda is never on the library search path:**
 
 ```bash
@@ -87,7 +87,7 @@ mlx_lm.lora \
 ```
 
 Confirm the adapter weights were actually written (this is the file that
-matters â€” if training crashes partway through, only `adapter_config.json`
+matters — if training crashes partway through, only `adapter_config.json`
 will exist and `adapters.safetensors` will be missing):
 
 ```bash
@@ -100,8 +100,8 @@ You should see both `adapter_config.json` and `adapters.safetensors`.
 > smoke test to confirm the pipeline works end-to-end, not a real training
 > run. To get the model to actually learn the output format, increase:
 > - `--iters` to 200â€“1000+
-> - `--num-layers` to 8â€“16 (or `-1` for all layers)
-> - `--batch-size` to 4â€“8 (120 training examples can support this)
+> - `--num-layers` to 8-16 (or `-1` for all layers)
+> - `--batch-size` to 4-8 (120 training examples can support this)
 
 ## 5. Prompting the Fine-Tuned Model
 
@@ -114,7 +114,7 @@ mlx_lm.generate \
 ```
 
 - `--adapter-path adapters` loads your LoRA weights on top of the base model.
-- `--max-tokens` defaults to 100, which is too short for full responses â€”
+- `--max-tokens` defaults to 100, which is too short for full responses —
   bump it up (300 is a reasonable starting point).
 - Qwen3 is a "thinking" model by default, so part of the token budget goes
   toward a `<think>...</think>` block before the final answer â€” factor that
